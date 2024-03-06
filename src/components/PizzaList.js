@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Pizza from "./Pizza";
 
-function PizzaList() {
+function PizzaList({
+  pizzaList,
+  setPizzaList,
+  handleEdit,
+}) {
+  // GET REQUEST
+  useEffect(() => {
+    fetch("http://localhost:3001/pizzas")
+      .then(res => res.json())
+      .then(pizza => setPizzaList(pizza))
+  }, [])
+  
+  // MAIN DISPLAY
+  const displayPizzaList = pizzaList.map(pizza => {
+    return <Pizza
+    key={pizza.id}
+    pizza={pizza}
+    handleEdit={handleEdit}
+    />
+  })
+  
   return (
     <table className="table table-striped">
       <thead>
@@ -13,9 +33,7 @@ function PizzaList() {
         </tr>
       </thead>
       <tbody>
-        {
-          //render Pizza here
-        }
+        {displayPizzaList}
       </tbody>
     </table>
   );
